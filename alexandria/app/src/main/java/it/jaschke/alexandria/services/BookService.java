@@ -31,12 +31,10 @@ import it.jaschke.alexandria.data.AlexandriaContract;
  */
 public class BookService extends IntentService {
 
-    private final String LOG_TAG = BookService.class.getSimpleName();
-
     public static final String FETCH_BOOK = "it.jaschke.alexandria.services.action.FETCH_BOOK";
     public static final String DELETE_BOOK = "it.jaschke.alexandria.services.action.DELETE_BOOK";
-
     public static final String EAN = "it.jaschke.alexandria.services.extra.EAN";
+    private final String LOG_TAG = BookService.class.getSimpleName();
 
     public BookService() {
         super("Alexandria");
@@ -155,7 +153,8 @@ public class BookService extends IntentService {
         final String CATEGORIES = "categories";
         final String IMG_URL_PATH = "imageLinks";
         final String IMG_URL = "thumbnail";
-
+        if (bookJsonString == null || bookJsonString.isEmpty())
+            return;
         try {
             JSONObject bookJson = new JSONObject(bookJsonString);
             JSONArray bookArray;
@@ -197,6 +196,8 @@ public class BookService extends IntentService {
             }
 
         } catch (JSONException e) {
+            Log.e(LOG_TAG, "Error ", e);
+        } catch (NullPointerException e) {
             Log.e(LOG_TAG, "Error ", e);
         }
     }
