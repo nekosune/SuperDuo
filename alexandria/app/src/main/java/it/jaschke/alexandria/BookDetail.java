@@ -2,6 +2,7 @@ package it.jaschke.alexandria;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -96,8 +97,11 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        shareIntent.setType("text/plain");
+        // Would possibly crash if used on a phone below Lollipop
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP) {
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        }
+        shareIntent.setType(getActivity().getResources().getString(R.string.ShareType));
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text)+bookTitle);
         shareActionProvider.setShareIntent(shareIntent);
 

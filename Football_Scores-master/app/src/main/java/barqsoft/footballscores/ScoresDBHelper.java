@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import barqsoft.footballscores.DatabaseContract.scores_table;
+import barqsoft.footballscores.debug.SQLiteCursorFactory;
 
 /**
  * Created by yehya khaled on 2/25/2015.
@@ -15,7 +16,7 @@ public class ScoresDBHelper extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 2;
     public ScoresDBHelper(Context context)
     {
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        super(context, DATABASE_NAME, new SQLiteCursorFactory(true), DATABASE_VERSION);
     }
 
     @Override
